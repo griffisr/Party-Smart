@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Party Smart</title>
+
+    <!--Import Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!--Firebase Libraries-->
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-database.js"></script>
+
+    <meta name="viewport" content = "width=device-width,
+    initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+    <!--Import Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Goldman&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="mainstyle.css">
+</head>
+<body>
+
+    
+    <section class="s1">
+        <div class="main-container">
+
+            <!--Nav Bar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="index.html">Party Smart</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Products</a>
+                    </li>
+                </ul>
+                </div>
+            </nav>
+
+
+            <div class="pages-wrapper">
+
+                <div class="left-column">
+
+                    <!--Check In Label-->
+                    <div class="checkInLabel">
+                        <img src="images/Check_In.png" alt="Check In" width="235" height="55"> </div>
+
+                    <!--Form for adding-->
+                    <div class="checkInForm">
+                        <form action="">
+                            Enter name: <input type="text" name="UsersName" id="UsersName" required>
+                            <input type="submit" value="Check In" onClick="checkIn()">
+                        </form>
+                    </div>
+
+                    <!--Check Out Label -->
+                    <div class="checkOutLabel">
+                    <!-- <img src="images/Check_Out.png" alt="Check Out" width="235" height="65"> -->
+                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+                    <ul id="myUL">
+                    <li><a href="#">Adele</a></li>
+                    <li><a href="#">Agnes</a></li>
+
+                    <li><a href="#">Billy</a></li>
+                    <li><a href="#">Bob</a></li>
+
+                    <li><a href="#">Calvin</a></li>
+                    <li><a href="#">Christina</a></li>
+                    <li><a href="#">Cindy</a></li>
+                    </ul>
+                    </div>
+    
+    
+                    <!--Form for removing-->
+                    <div class="checkOutForm">
+                        <form action="" onsubmit="checkOut">
+                            Enter name: <input type="text" name="UsersName" id="LeavingUsersName" required>
+                        <input type="submit" value="Check Out" onClick="checkOut()" >
+                        </form>
+                    </div>
+                </div>
+
+                <div class="right-column">
+
+                    <!--Counter Label-->
+                    <div class="counterLabel" id="result"></div>
+
+                    <!--Counter Button-->
+                    <div class="counterButton">
+                    <p><button onclick="printArray()" type="button">Filler to add "In Party" Count</button></p>
+
+                    <!--File input to upload list-->
+                    <input type="file" name="inputfile" id="inputfile">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="s2">
+        <div class="main-container">
+            <div class="pages-wrapper">
+
+                <div class="left-column">
+                    <h3>Guest List</h3>
+                    <p>
+                        <ol id="names">
+
+                        </ol>
+                    </p>
+
+                    <div class="guestList" id="guestList"></div>
+
+                </div>
+
+                <div class="right-column">
+                    <h3>Guests Inside</h3>
+                    <pre id="inParty"></pre>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="script.js"></script>
+
+</body>
+</html>

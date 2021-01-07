@@ -1,0 +1,138 @@
+* {
+    box-sizing: border-box;
+  }
+
+:root{
+    --mainColor: #eaeaea;
+    --secondaryColor: #fff;
+
+    --borderColor: #c1c1c1;
+
+
+    --mainText: black;
+    --secondaryText: #4b5156;
+
+    --themeDotBorder: #24292e;
+
+    --previewBg: rgb(251, 249, 243, 0.8);
+
+    --previewShadow: #f0ead6;
+
+    --buttonColor: black;
+}
+
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6, strong{
+    color: var(--mainText);
+    font-family: 'Goldman', sans-serif;
+    font-weight: 500;
+}
+
+.s1{
+    background-color: var(--mainColor);
+    border-bottom:1px solid var(--borderColor);
+    overflow:auto;
+}
+
+.main-container{
+    width: 100;
+    margin: 0 auto;
+}
+
+.pages-wrapper{
+    background-color: var(--secondaryColor);
+    border: 1px solid var(--borderColor);
+    border-radius: 5px 5px 0 0;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-template-areas: 
+        'nav-wrapper nav-wrapper'
+        'left-column right-column'
+    ;
+
+}
+
+.left-column{
+    grid-area: left-column;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+   
+}
+
+.right-column{
+    grid-area: right-column;
+    display: grid;
+    align-content: center;
+
+    padding-top: 50px;
+    padding-bottom: 50px;
+    
+}
+
+.counterLabel {
+    padding-left: 100px;
+    color: #ff0000;
+  
+  }
+
+  
+  #myInput {
+    background-image: url('/images/searchIcon.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+  
+  #myUL {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #myUL li a {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block
+  }
+  
+  #myUL li a:hover:not(.header) {
+    background-color: #eee;
+  }
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1200px){
+    .main-container{
+        width: 95%
+    }
+}
+
+@media screen and (max-width: 800px){
+    .intro-wrapper{
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            'nav-wrapper'
+            'left-column'
+            'right-column'
+        ;
+    }}
