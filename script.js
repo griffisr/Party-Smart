@@ -73,7 +73,7 @@ function gotData(data){
     var li = document.createElement('li');
 
     a.textContent= names;
-    a.setAttribute('href', "http://riley-griffis.s3-website.us-east-2.amazonaws.com/")
+    a.setAttribute('href', "javascript:updateLists()")
     li.appendChild(a);
     ul.appendChild(li);
   }
@@ -84,12 +84,26 @@ function errData(err){
   console.log(err);
 }
 
+function updateLists(){
+  var ul = document.getElementById("namesInside");
+  var guestsRef = firebase.database().ref("guestList/");
+  guestsRef.orderByChild("Inside").on("child_added", function(data) {
+    if (data.val().Inside == "Yes") {
+    var a =document.createElement("a");
+    var li = document.createElement('li');
 
+    a.textContent= data.val().name;
+    a.setAttribute('href', "https://stackoverflow.com/questions/1070760/javascript-function-in-href-vs-onclick")
+    li.appendChild(a);
+    ul.appendChild(li);
+    } 
+  })
+}
 
 //clears guest list on screen
-function printArray(list) {
+function printArray() {
   
-console.log(guestList)
+console.log("js works")
 ;}
 
 

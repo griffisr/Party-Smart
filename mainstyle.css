@@ -93,6 +93,7 @@ h1,h2,h3,h4,h5,h6, strong{
     margin-bottom: 12px;
   }
   
+  /* list of guest on the list*/
   #names {
     list-style-type: none;
     padding: 0;
@@ -111,6 +112,28 @@ h1,h2,h3,h4,h5,h6, strong{
   }
   
   #names li a:hover:not(.header) {
+    background-color: #eee;
+  }
+
+ /*list of guests inside*/
+  #namesInside {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #namesInside li a {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block
+  }
+  
+  #namesInside li a:hover:not(.header) {
     background-color: #eee;
   }
 
