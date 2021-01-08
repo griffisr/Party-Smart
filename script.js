@@ -28,20 +28,18 @@ document.getElementById('inputfile') .addEventListener('change', function loadFi
 
               //turns names into json objects
               strToObject();
-
-              //Uploads list to firebase realt time database
             } 
             fr.readAsText(this.files[0]);
             
         }) 
 
 
+//Helper function to turn the guest list into an array of objects to assign data to 
 function strToObject()
 {
-  const guestList = [];
+  guestList = [];
 
-  names.forEach(function (element, index) {
-    
+  names.forEach(function (element, index) { 
   guestList.push({
         name: element,
         Inside: "no",
@@ -55,10 +53,13 @@ function strToObject()
 });
 }
 
+
+//Actively read data from firebase to print to UI
 var ref = database.ref('guestList')
 ref.on('value', gotData, errData);
 
 function gotData(data){
+  document.getElementById("names").innerHTML = "";
   var scores = data.val();
   var keys = Object.keys(scores);
 
@@ -71,11 +72,8 @@ function gotData(data){
     var li = document.createElement('li');
     li.appendChild(document.createTextNode(names));
     ul.appendChild(li);
-
-
   }
 }
-
 
 function errData(err){
   console.log('Error!');
@@ -86,48 +84,11 @@ function errData(err){
 
 //clears guest list on screen
 function printArray(list) {
-  document.getElementById("names").innerHTML = "";
-}
-
-
-
-
-
-
-
-//Keeps local variable as current guest list
-if(localStorage.getItem('guestlist') != null){
-  guestList =  JSON.parse(localStorage.getItem('guestlist'));
-}
-
-
-      
-function addItemToArray(){
- guestList.push(document.getElementById("txtMyText").value);
-  localStorage.setItem('guestlist', JSON.stringify(guestList));
-  //------------^store the item by stringify--^
-  }
-
-
-
-
-//Returns time
-function addZero(i) {
-    if (i < 10) {
-      i = "0" + i;
-    }
-    return i;
-  }
   
-  function getTime() {
-    var d = new Date();
-    var h = addZero(d.getHours());
-    var m = addZero(d.getMinutes());
-    var s = addZero(d.getSeconds());
-    var currentTime = h + ":" + m + ":" + s;
-  
-      return currentTime;
-  }
+console.log(guestList)
+;}
+
+
 
 //Check in
 function checkIn() {
@@ -135,23 +96,41 @@ function checkIn() {
     var name = document.getElementById('UsersName').value;
     
     //Checks to see if user is in list of guests and isn't in the list of guest in the party
-    var ul = document.getElementById("names");
-  
-    //If not "inParty" and on guestList[], adds them to "inParty", else request rejected
-      if (index != -1){
-          firebase.database().ref('inParty/' + name ).set({
-          TimeIn: getTime(),
-        });
-      alert(name + " has been checked in.")
-      guestList.splice(index, 1);
-      inParty.push(name);
-      }
-      else
-      {
-          alert("Sorry, " + name + " is not on the guest list")
-      }
-      
+    
+    var guestsRef = firebase.database().ref("guestList/");
+
+    guestsRef.orderByChild("name").on("child_added", function(data) {
+    if (name == data.val().name) {
+      objIndex = guestList.findIndex((obj => obj.name == name));
+      guestsRef = firebase.database().ref("guestList/" + objIndex)
+      guestsRef.update({
+        Inside: "Yes",
+        TimeIn: getTime(),
+        TimeOut: "n/a",
+
+      })
+      alert(name + " has been check in!")
+    } 
+  })
   }
+
+  //Returns time
+  function addZero(i) {
+    if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+  }
+
+  function getTime() {
+    var d = new Date();
+    var h = addZero(d.getHours());
+    var m = addZero(d.getMinutes());
+    var s = addZero(d.getSeconds());
+    var currentTime = h + ":" + m + ":" + s;
+
+    return currentTime;
+}
 
   function checkOut(){
     const index = guestList.indexOf('LeavingUsersName');
@@ -163,10 +142,6 @@ function checkIn() {
     localStorage.setItem('inParty', JSON.stringify(inParty));
 
   }
-function guestsInside() {
-  
-
-}
   
 
 //Counter
