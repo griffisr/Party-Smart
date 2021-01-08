@@ -69,8 +69,12 @@ function gotData(data){
     var names = scores[k].name;
     var inside = scores[k].Inside;
 
+    var a =document.createElement("a");
     var li = document.createElement('li');
-    li.appendChild(document.createTextNode(names));
+
+    a.textContent= names;
+    a.setAttribute('href', "http://riley-griffis.s3-website.us-east-2.amazonaws.com/")
+    li.appendChild(a);
     ul.appendChild(li);
   }
 }
@@ -109,7 +113,7 @@ function checkIn() {
         TimeOut: "n/a",
 
       })
-      alert(name + " has been check in!")
+      alert(name + " has been checked in!")
     } 
   })
   }
@@ -163,7 +167,7 @@ function clickCounter() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
+    ul = document.getElementById("names");
     li = ul.getElementsByTagName("li");
     for (i = 0; i < li.length; i++) {
         a = li[i].getElementsByTagName("a")[0];
