@@ -14,6 +14,8 @@ const firebaseConfig = {
 
 
 
+//-------------------- User Uploaded List -------------------------
+
 //Initialize List Read file and import
 var names = []
 var inParty = []
@@ -30,7 +32,7 @@ document.getElementById('inputfile') .addEventListener('change', function loadFi
               strToObject();
             } 
             fr.readAsText(this.files[0]);
-            
+
         }) 
 
 
@@ -53,30 +55,30 @@ function strToObject()
 });
 }
 
-
-//Actively read data from firebase to print to UI
-var ref = database.ref('guestList')
-ref.on('value', gotData, errData);
-
-function gotData(data){
-  document.getElementById("names").innerHTML = "";
-  var scores = data.val();
-  var keys = Object.keys(scores);
-
-  var ul = document.getElementById("names");
-  for ( var i=0; i < keys.length; i++){
-    var k = keys[i];
-    var names = scores[k].name;
-    var inside = scores[k].Inside;
-
-    var a =document.createElement("a");
-    var li = document.createElement('li');
-
-    a.textContent= names;
-    a.setAttribute('href', "javascript:updateLists()")
-    li.appendChild(a);
-    ul.appendChild(li);
+//Helper Funtion for CheckIn/CheckOut to grab current list from Firebase
+function printArray() {
+  var ref = database.ref('guestList')
+  ref.on('value', readData, errData);
   }
+function readData(data){
+  guestList=[];
+  var scores = data.val();
+  var keys = Object.keys(scores)
+
+  for (var i=0; i < keys.length; i++){
+    var k = keys[i]
+    var name = scores[k].name;
+    var inside = scores[k].Inside;
+    var timeIn = scores[k].TimeIn;
+    var timeOut = scores[k].TimeOut;
+    guestList[i] = {
+        name: name,
+        Inside: inside,
+        TimeIn: timeIn,
+        TimeOut: timeOut,
+    }
+  }
+  checkIn(guestList);
 }
 
 function errData(err){
@@ -84,52 +86,40 @@ function errData(err){
   console.log(err);
 }
 
-function updateLists(){
-  var ul = document.getElementById("namesInside");
-  var guestsRef = firebase.database().ref("guestList/");
-  guestsRef.orderByChild("Inside").on("child_added", function(data) {
-    if (data.val().Inside == "Yes") {
-    var a =document.createElement("a");
-    var li = document.createElement('li');
-
-    a.textContent= data.val().name;
-    a.setAttribute('href', "https://stackoverflow.com/questions/1070760/javascript-function-in-href-vs-onclick")
-    li.appendChild(a);
-    ul.appendChild(li);
-    } 
-  })
-}
-
-//clears guest list on screen
-function printArray() {
-  
-console.log("js works")
-;}
 
 
+//-------------------- Check In and Check In Helper Functions -------------------------
 
 //Check in
-function checkIn() {
+function checkIn(list) {
+ 
     //Grabs current guest to be added or deleted from form text box
     var name = document.getElementById('UsersName').value;
-    
+
     //Checks to see if user is in list of guests and isn't in the list of guest in the party
     
     var guestsRef = firebase.database().ref("guestList/");
 
     guestsRef.orderByChild("name").on("child_added", function(data) {
     if (name == data.val().name) {
-      objIndex = guestList.findIndex((obj => obj.name == name));
+      objIndex = list.findIndex((obj => obj.name == name));
       guestsRef = firebase.database().ref("guestList/" + objIndex)
       guestsRef.update({
         Inside: "Yes",
         TimeIn: getTime(),
         TimeOut: "n/a",
-
       })
-      alert(name + " has been checked in!")
+      alerts(name, true)
     } 
   })
+  }
+  function alerts(name, Boolean){
+    if(Boolean){
+      console.log(name + " has been check in!")
+    }
+    else{
+      console.log(name + " has been check out!")
+    }
   }
 
   //Returns time
@@ -177,6 +167,57 @@ function clickCounter() {
   }
 
 
+//------------------- UI List Funtions ------------------------
+
+//Actively read data from firebase to print to UI
+var ref = database.ref('guestList')
+ref.on('value', gotData, errData);
+
+function gotData(data){
+  //Momentarily clears both UI lists so items can be added w/o duplicates
+  document.getElementById("names").innerHTML = "";
+  document.getElementById("namesInside").innerHTML = "";
+
+  var scores = data.val();
+  var keys = Object.keys(scores);
+
+  var ul = document.getElementById("names");
+  var ulInside = document.getElementById("namesInside");
+
+  for ( var i=0; i < keys.length; i++){
+    var k = keys[i];
+    var names = scores[k].name;
+    var inside = scores[k].Inside;
+
+    var a =document.createElement("a");
+    var li = document.createElement("li");
+
+    a.textContent= names;
+    a.setAttribute('href', "javascript:printArray()")
+    li.appendChild(a);
+    ul.appendChild(li);
+  }
+  for ( var i=0; i < keys.length; i++){
+    var k = keys[i];
+    var names = scores[k].name;
+    var inside = scores[k].Inside;
+
+    if(inside == "Yes"){
+      var a = document.createElement("a");
+      var li = document.createElement("li")
+
+      a.textContent = names;
+      a.setAttribute('href', "javascript:checkOut()");
+      li.appendChild(a);
+      ulInside.appendChild(li);
+    }
+    
+  }
+}
+
+
+
+//Search List function
   function myFunction() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("myInput");
