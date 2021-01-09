@@ -54,10 +54,11 @@
 
                     <!--Form for adding-->
                     <div class="checkInForm">
-                        <form action="">
-                            Enter name: <input type="text" name="UsersName" id="UsersName" required>
-                            <input type="submit" value="Check In" onClick="printArray()">
-                        </form>
+                        <input type="submit" value="Check In" onClick="printArray()">
+                        <input type="text" id="checkIn" onkeyup="checkInList()" placeholder="Search for names.." title="Type in a name">
+
+                        <ul id="names">
+                        </ul>
                     </div>
 
                     <!--Check Out Label -->
@@ -78,19 +79,25 @@
 
                 <div class="right-column">
 
-                    <!--Counter Label-->
-                    <div class="counterLabel" id="result"></div>
+                    <!--Counter Label
+                    <div class="counterLabel" id="result"></div>-->
 
                     
 
-                    <!--Counter Button-->
+                    <!--Counter Button
                     <div class="counterButton">
-                    <p><button onclick="" type="button">Filler to add "In Party" Count</button></p>
+                    <p><button onclick="" type="button">Filler to add "In Party" Count</button></p> -->
 
                     
 
                     <!--File input to upload list-->
                     <input type="file" name="inputfile" id="inputfile">
+
+
+                    <h3>Guests Inside</h3>
+                    <input type="text" id="checkOut" name = "checkingOut" onkeyup="insideList()" placeholder="Search for names.." title="Type in a name">
+                        <ul id="namesInside">
+                        </ul>
                     </div>
 
                 </div>
@@ -106,20 +113,13 @@
 
                 <div class="left-column">
                     <h3>Guest List</h3>
-                    <input type="text" id="checkIn" onkeyup="checkInList()" placeholder="Search for names.." title="Type in a name">
-
-                    <ul id="names">
-                    </ul>
 
                     <div class="displayList" id="displayList"></div>
 
                 </div>
 
                 <div class="right-column">
-                    <h3>Guests Inside</h3>
-                    <input type="text" id="checkOut" onkeyup="insideList()" placeholder="Search for names.." title="Type in a name">
-                        <ul id="namesInside">
-                        </ul>
+                    
 
                 </div>
 

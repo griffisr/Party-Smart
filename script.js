@@ -56,7 +56,7 @@ function strToObject()
 }
 
 //Helper Funtion for CheckIn/CheckOut to grab current list from Firebase
-function printArray() {
+function printArray(name) {
   var ref = database.ref('guestList')
   ref.on('value', readData, errData);
   }
@@ -89,12 +89,16 @@ function errData(err){
 
 
 //-------------------- Check In and Check In Helper Functions -------------------------
-
+//New Check In
+function checkInn(name){
+  console.log(name)
+  document.getElementById('checkIn').value = name;
+}
 //Check in
 function checkIn(list) {
  
     //Grabs current guest to be added or deleted from form text box
-    var name = document.getElementById('UsersName').value;
+    var name = document.getElementById('checkIn').value;
 
     //Checks to see if user is in list of guests and isn't in the list of guest in the party
     
@@ -193,9 +197,11 @@ function gotData(data){
     var li = document.createElement("li");
 
     a.textContent= names;
-    a.setAttribute('href', "javascript:printArray()")
     li.appendChild(a);
     ul.appendChild(li);
+    a.setAttribute('id', names);
+    console.log(names);
+    a.setAttribute('onclick', 'checkInn(id)');
   }
   for ( var i=0; i < keys.length; i++){
     var k = keys[i];
@@ -214,8 +220,6 @@ function gotData(data){
     
   }
 }
-
-
 
 //Search List function
   function checkInList() {
