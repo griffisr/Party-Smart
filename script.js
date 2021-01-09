@@ -218,9 +218,9 @@ function gotData(data){
 
 
 //Search List function
-  function myFunction() {
+  function checkInList() {
     var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
+    input = document.getElementById("checkIn");
     filter = input.value.toUpperCase();
     ul = document.getElementById("names");
     li = ul.getElementsByTagName("li");
@@ -233,5 +233,22 @@ function gotData(data){
             li[i].style.display = "none";
         }
     }
+}
+
+function insideList() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("checkOut");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("namesInside");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "";
+      } else {
+          li[i].style.display = "none";
+      }
+  }
 }
 

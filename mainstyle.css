@@ -82,7 +82,18 @@ h1,h2,h3,h4,h5,h6, strong{
   }
 
   
-  #myInput {
+  #checkIn {
+    background-image: url('/images/searchIcon.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+
+  #checkOut {
     background-image: url('/images/searchIcon.png');
     background-position: 10px 12px;
     background-repeat: no-repeat;
