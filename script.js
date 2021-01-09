@@ -44,7 +44,7 @@ function strToObject()
   names.forEach(function (element, index) { 
   guestList.push({
         name: element,
-        Inside: "no",
+        Inside: "No",
         TimeIn: "n/a",
         TimeOut: "n/a",
   })
@@ -55,8 +55,11 @@ function strToObject()
 });
 }
 
-//Helper Funtion for CheckIn/CheckOut to grab current list from Firebase
-function printArray(name) {
+
+//-------------------- Check In and Check In Helper Functions -------------------------
+
+//Helper Function to Grab current List index
+function printArray() {
   var ref = database.ref('guestList')
   ref.on('value', readData, errData);
   }
@@ -85,11 +88,7 @@ function errData(err){
   console.log('Error!');
   console.log(err);
 }
-
-
-
-//-------------------- Check In and Check In Helper Functions -------------------------
-//New Check In
+//Helper Function to set text box to selected name
 function checkInn(name){
   console.log(name)
   document.getElementById('checkIn').value = name;
@@ -111,18 +110,75 @@ function checkIn(list) {
       guestsRef.update({
         Inside: "Yes",
         TimeIn: getTime(),
-        TimeOut: "n/a",
       })
       alerts(name, true)
     } 
   })
   }
+
+//------------------------- Check Out ---------------------------
+//Helper Function to Grab current List index
+function printArrayy() {
+  var ref = database.ref('guestList')
+  ref.on('value', readOutData, errData);
+  }
+function readOutData(data){
+  guestList=[];
+  var scores = data.val();
+  var keys = Object.keys(scores)
+
+  for (var i=0; i < keys.length; i++){
+    var k = keys[i]
+    var name = scores[k].name;
+    var inside = scores[k].Inside;
+    var timeIn = scores[k].TimeIn;
+    var timeOut = scores[k].TimeOut;
+    guestList[i] = {
+        name: name,
+        Inside: inside,
+        TimeIn: timeIn,
+        TimeOut: timeOut,
+    }
+  }
+  checkOut(guestList);
+}
+
+//Helper Function to set text box to selected name
+function checkOutt(name){
+  document.getElementById('checkOut').value = name;
+}
+//Check Out
+function checkOut(list) {
+ 
+    //Grabs current guest to be added or deleted from form text box
+    var name = document.getElementById('checkOut').value;
+
+    //Checks to see if user is in list of guests and isn't in the list of guest in the party
+    
+    var guestsRef = firebase.database().ref("guestList/");
+
+    guestsRef.orderByChild("name").on("child_added", function(data) {
+    if (name == data.val().name) {
+      objIndex = list.findIndex((obj => obj.name == name));
+      guestsRef = firebase.database().ref("guestList/" + objIndex)
+      guestsRef.update({
+        Inside: "No",
+        TimeOut: getTime(),
+      })
+      alerts(name, false)
+    } 
+  })
+  }
+
+
+
+//Placeholder to alert user when a succesful check in or check out function runs
   function alerts(name, Boolean){
     if(Boolean){
-      console.log(name + " has been check in!")
+      console.log(name + " has been checked in!")
     }
     else{
-      console.log(name + " has been check out!")
+      console.log(name + " has been checked out!")
     }
   }
 
@@ -144,16 +200,6 @@ function checkIn(list) {
     return currentTime;
 }
 
-  function checkOut(){
-    const index = guestList.indexOf('LeavingUsersName');
-    if (index > -1) {
-    guestList.splice(index, 1);
-    }
-    inParty.push(document.getElementById('LeavingUsersName').value)
-    localStorage.setItem('guestlist', JSON.stringify(guestList));
-    localStorage.setItem('inParty', JSON.stringify(inParty));
-
-  }
   
 
 //Counter
@@ -200,7 +246,6 @@ function gotData(data){
     li.appendChild(a);
     ul.appendChild(li);
     a.setAttribute('id', names);
-    console.log(names);
     a.setAttribute('onclick', 'checkInn(id)');
   }
   for ( var i=0; i < keys.length; i++){
@@ -213,9 +258,10 @@ function gotData(data){
       var li = document.createElement("li")
 
       a.textContent = names;
-      a.setAttribute('href', "javascript:checkOut()");
       li.appendChild(a);
       ulInside.appendChild(li);
+      a.setAttribute('id', names);
+      a.setAttribute('onclick', 'checkOutt(id)');
     }
     
   }
