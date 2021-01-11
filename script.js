@@ -111,12 +111,14 @@ function checkIn(list) {
         Inside: "Yes",
         TimeIn: getTime(),
       })
+      guestsRef.off();
+      document.getElementById('checkIn').value = "";
       alerts(name, true)
     } 
   })
   }
 
-//------------------------- Check Out ---------------------------
+//------------------------- Check Out ------------------------------------------------------------
 //Helper Function to Grab current List index
 function printArrayy() {
   var ref = database.ref('guestList')
@@ -145,6 +147,7 @@ function readOutData(data){
 
 //Helper Function to set text box to selected name
 function checkOutt(name){
+  console.log(name);
   document.getElementById('checkOut').value = name;
 }
 //Check Out
@@ -165,6 +168,8 @@ function checkOut(list) {
         Inside: "No",
         TimeOut: getTime(),
       })
+      document.getElementById('checkOut').value = "";
+      guestsRef.off();
       alerts(name, false)
     } 
   })
@@ -227,6 +232,7 @@ function gotData(data){
   //Momentarily clears both UI lists so items can be added w/o duplicates
   document.getElementById("names").innerHTML = "";
   document.getElementById("namesInside").innerHTML = "";
+  
 
   var scores = data.val();
   var keys = Object.keys(scores);
