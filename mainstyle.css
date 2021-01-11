@@ -18,8 +18,10 @@
 
     --previewShadow: #f0ead6;
 
-    --buttonColor: black;
+    --buttonColor: #fa982952;
 }
+
+
 
 html, body{
     padding: 0;
@@ -32,46 +34,74 @@ h1,h2,h3,h4,h5,h6, strong{
     font-weight: 500;
 }
 
-.s1{
-    background-color: var(--mainColor);
-    border-bottom:1px solid var(--borderColor);
-    overflow:auto;
-}
-
 .main-container{
-    width: 100;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.pages-wrapper{
-    background-color: var(--secondaryColor);
-    border: 1px solid var(--borderColor);
-    border-radius: 5px 5px 0 0;
+.list-column{
+  display: flex;
+  align-items: center;
+  background-color: brown;
+  width:35%;
+  flex-direction: column;
+  height: 400px;
+}
+.checkOutForm, .checkInForm{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
 
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    grid-template-areas: 
-        'nav-wrapper nav-wrapper'
-        'left-column right-column'
-    ;
+#checkOutBtn, #checkInBtn{
+    height:min-content;
+    background-color: var(--buttonColor); 
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+
+.middle-column{
+  display: flex;
+  background-color: coral;
+  width:20%;
+  height: 200px;
+  flex-direction: column;
+  align-items:stretch;
+
 
 }
 
-.left-column{
-    grid-area: left-column;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-left: 50px;
+#names, #namesInside{
+  width: 80%;
+  height: 200px;
+  overflow: auto;
+}
+
+
+
+.main-container2{
+  display: flex;
+  background-color: coral;
+  flex-direction: column;
+  align-items: center;
+}
+.left-tester{
+  display: flex;
    
 }
 
-.right-column{
-    grid-area: right-column;
-    display: grid;
-    align-content: center;
-
-    padding-top: 50px;
-    padding-bottom: 50px;
+.right-tester{
+    
     
 }
 
@@ -124,6 +154,7 @@ h1,h2,h3,h4,h5,h6, strong{
   
   #names li a:hover:not(.header) {
     background-color: #eee;
+    cursor: pointer;
   }
 
  /*list of guests inside*/
@@ -146,6 +177,7 @@ h1,h2,h3,h4,h5,h6, strong{
   
   #namesInside li a:hover:not(.header) {
     background-color: #eee;
+    cursor: pointer;
   }
 
 

@@ -21,97 +21,79 @@
 </head>
 <body>
 
-    
+    <!--Nav Bar-->
     <section class="s1">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">Party Smart</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Products</a>
+                </li>
+            </ul>
+            </div>
+        </nav>
+
         <div class="main-container">
 
-            <!--Nav Bar-->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="index.html">Party Smart</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                    <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Products</a>
-                    </li>
+            <div class="list-column">
+
+                <!--Check In Label-->
+                <div class="checkInLabel">
+                    <img src="images/Check_In.png" alt="Check In" width="235" height="55"> 
+                </div>
+
+                <!--Form for adding-->
+                <div class="checkInForm">
+                    <input id="checkInBtn" type="submit" value="Check In" onClick="printArray()">
+                    <input type="text" id="checkIn" onkeyup="checkInList()" placeholder="Search for names.." title="Type in a name">
+                </div>
+                <ul id="names">
                 </ul>
+            </div>
+            
+            <div class = "middle-column">
+                <!--File input to upload list-->
+                <input type="file" name="inputfile" id="inputfile">
+            </div>
+
+            <div class="list-column">
+
+                <!--Check Out Label -->
+                <div class="checkOutLabel">
+                    <img src="images/Check_Out.png" alt="Check Out" width="235" height="65"> 
                 </div>
-            </nav>
-
-            <!--File input to upload list-->
-            <input type="file" name="inputfile" id="inputfile">
-
-
-            <div class="pages-wrapper">
-
-                <div class="left-column">
-
-                    <h3>Guest List</h3>
-
-                    <!--Check In Label-->
-                    <div class="checkInLabel">
-                        <img src="images/Check_In.png" alt="Check In" width="235" height="55"> </div>
-
-                    <!--Form for adding-->
-                    <div class="checkInForm">
-                        <input type="submit" value="Check In" onClick="printArray()">
-                        <input type="text" id="checkIn" onkeyup="checkInList()" placeholder="Search for names.." title="Type in a name">
-
-                        <ul id="names">
-                        </ul>
-                    </div>
-
-                    
-                </div>
-
-                <div class="right-column">
-
-                    <h3>Guests Inside</h3>
-                    <!--Check Out Label -->
-                    <div class="checkOutLabel">
-                        <img src="images/Check_Out.png" alt="Check Out" width="235" height="65"> 
-                    
-                    </div>
     
-    
-                    <!--Form for removing-->
-                    <div class="checkOutForm">
-                        <input type="submit" value="Check Out" onClick="printArrayy()" >
-                    
-                    </div>
-
-                    
+                <!--Form for removing-->
+                <div class="checkOutForm">
+                    <input id= "checkOutBtn" type="submit" value="Check Out" onClick="printArrayy()" >
                     <input type="text" id="checkOut" name = "checkingOut" onkeyup="insideList()" placeholder="Search for names.." title="Type in a name">
-                        <ul id="namesInside">
-                        </ul>
-                    </div>
-
+                    
                 </div>
+                <ul id="namesInside">
+                </ul>
 
             </div>
+
     </section>
 
 
     <section class="s2">
-        <div class="main-container">
-            <div class="pages-wrapper">
-
-                <div class="left-column">
-
-                    <div class="displayList" id="displayList"></div>
-
+        <div class="main-container2">
+                <div class="left-tester">
+                    <h3>Testing left</h3>
                 </div>
 
-                <div class="right-column">
+                <div class="right-tester">
+                    <h3>testing right</h3>
                     <!--Counter Label
                     <div class="counterLabel" id="result"></div>-->
-
-                    
 
                     <!--Counter Button
                     <div class="counterButton">
@@ -120,7 +102,6 @@
 
                 </div>
 
-            </div>
         </div>
     </section>
 
