@@ -18,7 +18,6 @@ const firebaseConfig = {
 
 //Initialize List Read file and import
 var names = []
-var inParty = []
 document.getElementById('inputfile') .addEventListener('change', function loadFile() 
         { 
             var fr=new FileReader(); 
@@ -32,152 +31,81 @@ document.getElementById('inputfile') .addEventListener('change', function loadFi
               strToObject();
             } 
             fr.readAsText(this.files[0]);
-
         }) 
 
 
 //Helper function to turn the guest list into an array of objects to assign data to 
 function strToObject()
 {
-  guestList = [];
-
-  names.forEach(function (element, index) { 
-  guestList.push({
-        name: element,
-        Inside: "No",
-        TimeIn: "n/a",
-        TimeOut: "n/a",
-  })
-  firebase.database().ref().set({
-    guestList
-  });
-  
-});
+  for (var i = 0; i < names.length; i++)
+  {
+    firebase.database().ref('guestList/' + names[i]).set({
+      name: names[i],
+      Inside: "No",
+      TimeIn: "n/a",
+      TimeOut: "n/a",
+    })
+  }
 }
 
-
-//-------------------- Check In and Check In Helper Functions -------------------------
-
-//Helper Function to Grab current List index
-function printArray() {
-  var ref = database.ref('guestList')
-  ref.on('value', readData, errData);
-  }
-function readData(data){
-  guestList=[];
-  var scores = data.val();
-  var keys = Object.keys(scores)
-
-  for (var i=0; i < keys.length; i++){
-    var k = keys[i]
-    var name = scores[k].name;
-    var inside = scores[k].Inside;
-    var timeIn = scores[k].TimeIn;
-    var timeOut = scores[k].TimeOut;
-    guestList[i] = {
-        name: name,
-        Inside: inside,
-        TimeIn: timeIn,
-        TimeOut: timeOut,
+//Counter
+function clickCounter() {
+  if (typeof(Storage) !== "undefined") {
+    if (localStorage.clickcount) {
+      localStorage.clickcount = Number(localStorage.clickcount)+1;
+    } else {
+      localStorage.clickcount = 1;
     }
+    document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+  } else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
   }
-  checkIn(guestList);
 }
 
-function errData(err){
-  console.log('Error!');
-  console.log(err);
+//-------------------- Check In Funtion ---------------------------------------------
+function setTextIn(name){
+  document.getElementById("checkInName").value = name;
 }
-//Helper Function to set text box to selected name
-function checkInn(name){
-  console.log(name)
-  document.getElementById('checkIn').value = name;
-}
-//Check in
-function checkIn(list) {
- 
-    //Grabs current guest to be added or deleted from form text box
-    var name = document.getElementById('checkIn').value;
 
-    //Checks to see if user is in list of guests and isn't in the list of guest in the party
-    
-    var guestsRef = firebase.database().ref("guestList/");
-
-    guestsRef.orderByChild("name").on("child_added", function(data) {
-    if (name == data.val().name) {
-      objIndex = list.findIndex((obj => obj.name == name));
-      guestsRef = firebase.database().ref("guestList/" + objIndex)
-      guestsRef.update({
+document.getElementById("checkInBtn").onclick = function(){
+  var nameg = document.getElementById("checkInName").value;
+  firebase.database().ref("guestList/"+nameg).once('value', function(snapshot){
+    if(snapshot.val().Inside != "Yes")
+    {
+      firebase.database().ref("guestList/"+nameg).update({
         Inside: "Yes",
         TimeIn: getTime(),
       })
-      guestsRef.off();
-      document.getElementById('checkIn').value = "";
-      alerts(name, true)
-    } 
-  })
+    }
+    alerts(nameg, true)
+  document.getElementById("checkInName").value="";
   }
+)}
+
 
 //------------------------- Check Out ------------------------------------------------------------
-//Helper Function to Grab current List index
-function printArrayy() {
-  var ref = database.ref('guestList')
-  ref.on('value', readOutData, errData);
-  }
-function readOutData(data){
-  guestList=[];
-  var scores = data.val();
-  var keys = Object.keys(scores)
 
-  for (var i=0; i < keys.length; i++){
-    var k = keys[i]
-    var name = scores[k].name;
-    var inside = scores[k].Inside;
-    var timeIn = scores[k].TimeIn;
-    var timeOut = scores[k].TimeOut;
-    guestList[i] = {
-        name: name,
-        Inside: inside,
-        TimeIn: timeIn,
-        TimeOut: timeOut,
-    }
-  }
-  checkOut(guestList);
+function setTextOut(name){
+  document.getElementById("checkOutName").value = name;
 }
 
-//Helper Function to set text box to selected name
-function checkOutt(name){
-  console.log(name);
-  document.getElementById('checkOut').value = name;
-}
-//Check Out
-function checkOut(list) {
- 
-    //Grabs current guest to be added or deleted from form text box
-    var name = document.getElementById('checkOut').value;
-
-    //Checks to see if user is in list of guests and isn't in the list of guest in the party
-    
-    var guestsRef = firebase.database().ref("guestList/");
-
-    guestsRef.orderByChild("name").on("child_added", function(data) {
-    if (name == data.val().name) {
-      objIndex = list.findIndex((obj => obj.name == name));
-      guestsRef = firebase.database().ref("guestList/" + objIndex)
-      guestsRef.update({
+document.getElementById("checkOutBtn").onclick = function(){
+  var namel = document.getElementById("checkOutName").value;
+  firebase.database().ref("guestList/"+namel).once('value', function(snapshot){
+    if(snapshot.val().Inside != "No")
+    {
+      firebase.database().ref("guestList/"+namel).update({
         Inside: "No",
         TimeOut: getTime(),
       })
-      document.getElementById('checkOut').value = "";
-      guestsRef.off();
-      alerts(name, false)
-    } 
-  })
+    }
+    alerts(namel, false)
+  document.getElementById("checkOutName").value="";
   }
+)}
 
 
-
-//Placeholder to alert user when a succesful check in or check out function runs
+//---------------------- Alert once checked in and out ----------------------
   function alerts(name, Boolean){
     if(Boolean){
       console.log(name + " has been checked in!")
@@ -187,7 +115,7 @@ function checkOut(list) {
     }
   }
 
-  //Returns time
+  //-------------------------- Returns time ---------------------------
   function addZero(i) {
     if (i < 10) {
     i = "0" + i;
@@ -205,28 +133,14 @@ function checkOut(list) {
     return currentTime;
 }
 
-  
-
-//Counter
-function clickCounter() {
-    if (typeof(Storage) !== "undefined") {
-      if (localStorage.clickcount) {
-        localStorage.clickcount = Number(localStorage.clickcount)+1;
-      } else {
-        localStorage.clickcount = 1;
-      }
-      document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
-    } else {
-      document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
-    }
-  }
 
 
-//------------------- UI List Funtions ------------------------
+
+//------------------------------------------- UI List Funtions -------------------------------------
 
 //Actively read data from firebase to print to UI
-var ref = database.ref('guestList')
-ref.on('value', gotData, errData);
+var ref = database.ref("guestList/")
+ref.on('value', gotData, errData)
 
 function gotData(data){
   //Momentarily clears both UI lists so items can be added w/o duplicates
@@ -252,7 +166,7 @@ function gotData(data){
     li.appendChild(a);
     ul.appendChild(li);
     a.setAttribute('id', names);
-    a.setAttribute('onclick', 'checkInn(id)');
+    a.setAttribute('onclick', 'setTextIn(id)');
   }
   for ( var i=0; i < keys.length; i++){
     var k = keys[i];
@@ -267,11 +181,16 @@ function gotData(data){
       li.appendChild(a);
       ulInside.appendChild(li);
       a.setAttribute('id', names);
-      a.setAttribute('onclick', 'checkOutt(id)');
+      a.setAttribute('onclick', 'setTextOut(id)');
     }
     
   }
 }
+
+function errData(err){
+    console.log('Error!');
+    console.log(err);
+  }
 
 //Search List function
   function checkInList() {
