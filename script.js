@@ -56,7 +56,7 @@ function clickCounter() {
     } else {
       localStorage.clickcount = 1;
     }
-    document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+    document.getElementById("result").innerHTML = "There are currently " + localStorage.clickcount + " people inside.";
   } else {
     document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
   }
@@ -69,8 +69,43 @@ function setTextIn(name){
 
 document.getElementById("checkInBtn").onclick = function(){
   var nameg = document.getElementById("checkInName").value;
+  if(nameg==null){
+    alert("Please Enter a guest name!")
+  }
   firebase.database().ref("guestList/"+nameg).once('value', function(snapshot){
+    //Creates a new guest if they aren't on the list uploaded by the user
+    if(snapshot.val() == "")
+    {
+      firebase.database().ref("guestList/"+nameg).set({
+        name: nameg,
+        Inside: "No",
+        TimeIn: "n/a",
+        TimeOut: "n/a",
+      })
+      firebase.database().ref("guestList/"+nameg).once('value', function(snapshot){
+        if(snapshot.val().Inside != "Yes")
+      {
+        if(snapshot.val().TimeIn != "n/a" && snapshot.val().TimeOut !="n/a")
+        {
+          firebase.database().ref("guestList/"+nameg).update({
+            Inside: "Yes",
+            TimeBackIn: getTime(),
+            TimeBackOut: "n/a",
+          })
+        }
+        else
+        {
+          firebase.database().ref("guestList/"+nameg).update({
+          Inside: "Yes",
+          TimeIn: getTime(),})
+        }   
+      }    
+      alerts(nameg, true)
+      document.getElementById("checkInName").value="";
+      clickCounter();
+    })}
 
+    //Checks in user already on the guest list
     if(snapshot.val().Inside != "Yes")
       {
         if(snapshot.val().TimeIn != "n/a" && snapshot.val().TimeOut !="n/a")
@@ -88,7 +123,6 @@ document.getElementById("checkInBtn").onclick = function(){
           TimeIn: getTime(),})
         }   
       }     
-    
       alerts(nameg, true)
     document.getElementById("checkInName").value="";
     })

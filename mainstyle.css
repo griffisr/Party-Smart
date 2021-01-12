@@ -47,7 +47,6 @@ h1,h2,h3,h4,h5,h6, strong{
   width:35%;
   flex-direction: column;
   height: 400px;
-  flex-wrap: wrap;
 }
 .checkOutForm, .checkInForm{
   display: flex;
@@ -147,8 +146,7 @@ h1,h2,h3,h4,h5,h6, strong{
 }
 
 .counterLabel {
-    padding-left: 100px;
-    color: #ff0000;
+    color: #ffffff;
   
   }
 
