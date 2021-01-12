@@ -37,6 +37,7 @@ h1,h2,h3,h4,h5,h6, strong{
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .list-column{
@@ -46,6 +47,7 @@ h1,h2,h3,h4,h5,h6, strong{
   width:35%;
   flex-direction: column;
   height: 400px;
+  flex-wrap: wrap;
 }
 .checkOutForm, .checkInForm{
   display: flex;
@@ -150,12 +152,6 @@ h1,h2,h3,h4,h5,h6, strong{
   
   }
 
-  
-  
-
-
-
-
 
 @media screen and (max-width: 1200px){
     .main-container2{
@@ -164,7 +160,7 @@ h1,h2,h3,h4,h5,h6, strong{
 }
 
 @media screen and (max-width: 800px){
-    .main-container{
+    .s1{
         grid-template-columns: 1fr;
         grid-template-areas: 
             'left-column'

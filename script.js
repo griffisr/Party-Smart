@@ -70,17 +70,29 @@ function setTextIn(name){
 document.getElementById("checkInBtn").onclick = function(){
   var nameg = document.getElementById("checkInName").value;
   firebase.database().ref("guestList/"+nameg).once('value', function(snapshot){
+
     if(snapshot.val().Inside != "Yes")
-    {
-      firebase.database().ref("guestList/"+nameg).update({
-        Inside: "Yes",
-        TimeIn: getTime(),
-      })
+      {
+        if(snapshot.val().TimeIn != "n/a" && snapshot.val().TimeOut !="n/a")
+        {
+          firebase.database().ref("guestList/"+nameg).update({
+            Inside: "Yes",
+            TimeBackIn: getTime(),
+            TimeBackOut: "n/a",
+          })
+        }
+        else
+        {
+          firebase.database().ref("guestList/"+nameg).update({
+          Inside: "Yes",
+          TimeIn: getTime(),})
+        }   
+      }     
+    
+      alerts(nameg, true)
+    document.getElementById("checkInName").value="";
+    })
     }
-    alerts(nameg, true)
-  document.getElementById("checkInName").value="";
-  }
-)}
 
 
 //------------------------- Check Out ------------------------------------------------------------
@@ -94,10 +106,20 @@ document.getElementById("checkOutBtn").onclick = function(){
   firebase.database().ref("guestList/"+namel).once('value', function(snapshot){
     if(snapshot.val().Inside != "No")
     {
-      firebase.database().ref("guestList/"+namel).update({
-        Inside: "No",
-        TimeOut: getTime(),
-      })
+      if(snapshot.val().TimeIn != "n/a" && snapshot.val().TimeOut !="n/a")
+        {
+          firebase.database().ref("guestList/"+namel).update({
+            Inside: "No",
+            TimeBackOut: getTime(),
+          })
+        }
+        else
+        {
+          firebase.database().ref("guestList/"+namel).update({
+          Inside: "No",
+          TimeOut: getTime(),})
+        }
+      
     }
     alerts(namel, false)
   document.getElementById("checkOutName").value="";
