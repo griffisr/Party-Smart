@@ -130,6 +130,7 @@ h1,h2,h3,h4,h5,h6, strong{
 
 .main-container2{
   display: flex;
+  width: 100%;
   background-color: coral;
   flex-direction: row;
   justify-content: space-around;
@@ -141,7 +142,8 @@ h1,h2,h3,h4,h5,h6, strong{
 }
 
 .right-tester{
-    
+  display: flex;
+  flex-direction: column;
     
 }
 

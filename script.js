@@ -82,6 +82,8 @@ document.getElementById("checkInBtn").onclick = function(){
         TimeIn: "n/a",
         TimeOut: "n/a",
       })
+
+      //Checking people back in that have already been inside
       firebase.database().ref("guestList/"+nameg).once('value', function(snapshot){
         if(snapshot.val().Inside != "Yes")
       {
